@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class TaskManager {
     private final TaskRepository repository = new TaskRepository();
 
@@ -7,7 +9,8 @@ public class TaskManager {
     }
 
     public void listTasks() {
-        for (Task task : repository.getAllTasks()) {
+        final List<Task> tasks = repository.getAllTasks(); // ✅ Solución: 'final' agregado
+        for (Task task : tasks) {
             System.out.println("Task " + task.getId() + ": " + task.getDescription());
         }
     }
@@ -21,4 +24,8 @@ public class TaskManager {
         }
     }
 
+    // ✅ Método agregado para las pruebas unitarias
+    public List<Task> getAllTasks() {
+        return repository.getAllTasks();
+    }
 }

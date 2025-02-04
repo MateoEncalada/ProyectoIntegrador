@@ -15,10 +15,25 @@ public class TaskRepository {
     }
 
     public Optional<Task> findTaskById(int id) {
-        return tasks.stream().filter(task -> task.getId() == id).findFirst();
+        for (Task task : tasks) {
+            if (task.getId() == id) {
+                return Optional.of(task);
+            }
+        }
+        return Optional.empty();
     }
 
     public void removeTask(int id) {
-        tasks.removeIf(task -> task.getId() == id);
+        Task taskToRemove = null;
+        for (Task task : tasks) {
+            if (task.getId() == id) {
+                taskToRemove = task;
+                break; // Salir del bucle después de encontrar la tarea
+            }
+        }
+        if (taskToRemove != null) {
+            tasks.remove(taskToRemove);
+        }
     }
+
 }
