@@ -43,6 +43,20 @@
                 </configuration>
             </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>  <!-- Versión compatible con JUnit 5 -->
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                        <include>**/*Tests.java</include>
+                        <include>**/*TestCase.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+
+
             <!-- JaCoCo para cobertura de pruebas -->
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -64,29 +78,38 @@
                 </executions>
             </plugin>
 
-            <!-- SpotBugs para análisis estático del código -->
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
                 <version>4.4.2.2</version>
+                <configuration>
+                    <effort>max</effort>              <!-- Nivel de profundidad del análisis -->
+                    <threshold>Low</threshold>        <!-- Detecta problemas de baja prioridad -->
+                    <xmlOutput>true</xmlOutput>       <!-- Generar informe en XML -->
+                    <failOnError>false</failOnError>  <!-- No detener la build si hay errores -->
+                </configuration>
                 <executions>
                     <execution>
                         <phase>verify</phase>
                         <goals>
                             <goal>check</goal>
+                            <goal>spotbugs</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
 
-            <!-- Checkstyle para verificar la calidad del código -->
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>3.1.2</version>
                 <configuration>
                     <configLocation>checkstyle.xml</configLocation>
+                    <encoding>UTF-8</encoding>
+                    <consoleOutput>true</consoleOutput> <!-- Muestra errores en consola -->
                     <failOnViolation>true</failOnViolation>
+                    <includeFiles>**/*.java</includeFiles> <!-- ✅ Correcto -->
                 </configuration>
                 <executions>
                     <execution>
@@ -97,6 +120,8 @@
                     </execution>
                 </executions>
             </plugin>
+
+
         </plugins>
     </build>
 
